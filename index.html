@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Vinay's Personal Portfolio</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/TextPlugin.min.js"></script>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(180deg, #f0f4f8, #d1e3ff);
+            color: #333;
+            overflow-x: hidden;
+            margin: 0;
+        }
+        /* Navbar Styles */
+        .navbar {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            background: linear-gradient(45deg, #1e3a8a, #ec4899);
+            background-size: 400%;
+            animation: gradientShift 10s ease infinite;
+            padding: 15px 5%;
+            z-index: 1000;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        }
+        .navbar .nav-links {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+        }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 1.1rem;
+            padding: 10px;
+            transition: color 0.3s, transform 0.3s;
+        }
+        .navbar a:hover {
+            color: #ffcc00;
+            transform: scale(1.1);
+        }
+        .hamburger {
+            display: none;
+            flex-direction: column;
+            cursor: pointer;
+        }
+        .hamburger span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            margin: 2px 0;
+            transition: all 0.3s;
+        }
+        @media (max-width: 768px) {
+            .navbar .nav-links {
+                display: none;
+                flex-direction: column;
+                position: absolute;
+                top: 60px;
+                left: 0;
+                width: 100%;
+                background: linear-gradient(45deg, #1e3a8a, #ec4899);
+                padding: 20px;
+                text-align: center;
+            }
+            .navbar .nav-links.active {
+                display: flex;
+            }
+            .hamburger {
+                display: flex;
+                position: absolute;
+                right: 5%;
+                top: 18px;
+            }
+        }
+        /* Banner Styles */
+        .banner {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            color: white;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1, #ffcc00);
+            background-size: 600%;
+            animation: gradientShift 12s ease infinite;
+            margin-top: 60px;
+        }
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .banner img {
+            border-radius: 50%;
+            width: 300px;
+            height: 300px;
+            object-fit: cover;
+            box-shadow: 0 0 20px rgba(255, 204, 0, 0.7);
+            animation: glow 2s infinite ease-in-out;
+        }
+        @keyframes glow {
+            0% { box-shadow: 0 0 20px rgba(255, 204, 0, 0.7); }
+            50% { box-shadow: 0 0 40px rgba(255, 204, 0, 1); }
+            100% { box-shadow: 0 0 20px rgba(255, 204, 0, 0.7); }
+        }
+        .banner .text-container {
+            position: relative;
+            max-width: 50%;
+        }
+        .banner h1 {
+            display: block;
+            font-size: 3.5rem;
+            font-weight: bold;
+        }
+        .banner p {
+            display: block;
+            font-size: 2rem;
+            margin-top: 1rem;
+            position: relative;
+            padding-right: 20px;
+        }
+        .cursor {
+            display: inline-block;
+            color: #ffcc00;
+            opacity: 0;
+            animation: blink 0.7s infinite;
+            animation-delay: 3.5s;
+        }
+        @media (max-width: 768px) {
+            .banner {
+                flex-direction: column;
+                justify-content: center;
+                padding: 20px 5%;
+                text-align: center;
+                min-height: auto;
+                height: auto;
+            }
+            .banner .text-container {
+                max-width: 100%;
+                margin-bottom: 20px;
+            }
+            .banner h1 {
+                font-size: 2rem;
+            }
+            .banner p {
+                font-size: 1.25rem;
+                margin-top: 0.5rem;
+                padding-right: 0;
+                line-height: 1.5;
+                white-space: normal;
+                word-wrap: break-word;
+            }
+            .banner img {
+                width: 150px;
+                height: 150px;
+            }
+            .cursor {
+                display: block;
+                text-align: center;
+                margin-top: 0.25rem;
+                font-size: 1.25rem;
+            }
+        }
+        @keyframes blink {
+            0% { opacity: 1; }
+            50% { opacity: 0; }
+            100% { opacity: 1; }
+        }
+        .section {
+            padding: 60px 5%;
+            max-width: 1200px;
+            margin: 0 auto;
+            background: linear-gradient(90deg, #e0f2fe, #fef3c7);
+            background-size: 400%;
+            animation: sectionGradient 15s ease infinite;
+            border-radius: 12px;
+            margin-bottom: 20px;
+        }
+        @keyframes sectionGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .section h2 {
+            text-align: center;
+            font-size: 2.5rem;
+            font-weight: bold;
+            background: linear-gradient(45deg, #3b82f6, #ec4899);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: textColorShift 8s ease infinite;
+            margin-bottom: 2rem;
+        }
+        @keyframes textColorShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .education-option {
+            cursor: pointer;
+            padding: 15px;
+            background: linear-gradient(90deg, #a5b4fc, #f9a8d4);
+            background-size: 400%;
+            margin: 10px 0;
+            border-radius: 8px;
+            transition: transform 0.3s, background 0.3s;
+            animation: optionGradient 10s ease infinite;
+        }
+        .education-option:hover {
+            transform: scale(1.05);
+            background: linear-gradient(90deg, #818cf8, #f472b6);
+        }
+        @keyframes optionGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .education-details {
+            display: none;
+            padding: 20px;
+            background: linear-gradient(90deg, #f3e8ff, #fef3c7);
+            background-size: 400%;
+            animation: sectionGradient 12s ease infinite;
+            border-radius: 8px;
+            margin-top: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            opacity: 0;
+            transform: translateX(-20px);
+        }
+        .education-details.show {
+            display: block;
+            opacity: 1;
+            transform: translateX(0);
+            transition: opacity 0.5s, transform 0.5s;
+        }
+        .project-card, .certification-card {
+            background: linear-gradient(45deg, #e0f2fe, #fef3c7);
+            background-size: 400%;
+            animation: sectionGradient 15s ease infinite;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        .project-card:hover, .certification-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+        .footer {
+            background: linear-gradient(45deg, #1e3a8a, #ec4899, #10b981);
+            background-size: 600%;
+            animation: gradientShift 10s ease infinite;
+            color: white;
+            padding: 40px 5%;
+            text-align: center;
+        }
+        .social-logo {
+            width: 40px;
+            transition: transform 0.5s, filter 0.3s;
+        }
+        .social-logo:hover {
+            transform: rotate(360deg) scale(1.2);
+            filter: brightness(1.2);
+        }
+        .download-btn {
+            background: linear-gradient(45deg, #10b981, #3b82f6);
+            background-size: 400%;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: transform 0.3s, background 0.3s;
+            animation: buttonGradient 8s ease infinite;
+        }
+        .download-btn:hover {
+            transform: scale(1.15);
+            background: linear-gradient(45deg, #059669, #2563eb);
+        }
+        @keyframes buttonGradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+        .list-item {
+            transition: transform 0.3s, color 0.3s;
+        }
+        .list-item:hover {
+            transform: translateX(10px);
+            color: #ec4899;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="hamburger" onclick="toggleNav()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="nav-links">
+            <a href="#home">Home</a>
+            <a href="#about">About</a>
+            <a href="#education">Education</a>
+            <a href="#skills">Skills</a>
+            <a href="#hobbies">Hobbies</a>
+            <a href="#certifications">Certifications</a>
+            <a href="#projects">Projects</a>
+            <a href="#contact">Contact</a>
+        </div>
+    </nav>
+
+    <!-- Banner Section -->
+    <div class="banner" id="home">
+        <div class="text-container">
+            <h1>VINAY H.C.</h1>
+            <p>
+                <span id="job-role-part1"></span>
+                <span id="job-role-part2"></span>
+                <span class="cursor">|</span>
+            </p>
+        </div>
+        <img src="photo.png" alt="Your Photo">
+    </div>
+
+    <!-- About Me Section -->
+    <div class="section" id="about">
+        <h2>About Me</h2>
+        <p class="text-lg text-gray-700">
+            Hello! I’m Vinay H.C. Welcome to my portfolio! I’m from Ballari, Karnataka, and I'm a Commerce graduate with a strong interest in Accounting and Taxation. Currently on the path to becoming a Cost and Management Accountant (CMA), I’m deeply passionate about understanding how businesses manage their costs, stay compliant with tax regulations, and make informed financial decisions.
+        </p>
+    </div>
+
+    <!-- Education Section -->
+    <div class="section" id="education">
+        <h2>Education</h2>
+        <div class="education-option" onclick="toggleDetails('class12-details')">
+            <h3 class="text-xl font-semibold">Class 12th</h3>
+        </div>
+        <div id="class12-details" class="education-details">
+            <p><strong>Duration:</strong> 2021 - 2022</p>
+            <p><strong>Percentage:</strong> 96.67%</p>
+            <p><strong>Summary:</strong>  In my 12th-grade commerce class, I gained a solid understanding of Accountancy, Economics, and Business Studies. I excelled in Accountancy, scoring 100 out of 100, where I mastered financial statements and accounting principles. In Economics, I explored micro and macroeconomic theories, enhancing my analytical skills. Business Studies provided insights into management and entrepreneurship, giving me a well-rounded view of business operations.</p>
+        </div>
+        <div class="education-option" onclick="toggleDetails('degree-details')">
+            <h3 class="text-xl font-semibold">Degree</h3>
+        </div>
+        <div id="degree-details" class="education-details">
+            <p><strong>Duration:</strong> 2022 - 2025</p>
+            <p><strong>Course:</strong> Bachelor of Commerce (B.Com)</p>
+            <p><strong>Summary:</strong> Bachelor of Commerce (B.Com) program provides a comprehensive understanding of business principles, covering subjects like accounting, finance, marketing, and economics.</p>
+        </div>
+    </div>
+
+    <!-- Skills Section -->
+    <div class="section" id="skills">
+        <h2>Skills</h2>
+        <ul class="list-disc list-inside text-lg text-gray-700">
+            <li class="list-item">Tally Prime</li>
+            <li class="list-item">python</li>
+            <li class="list-item">AI in MS-Office</li>
+            <li class="list-item">Power-BI</li>
+            <li class="list-item">typing</li>
+        </ul>
+    </div>
+
+    <!-- Hobbies Section -->
+    <div class="section" id="hobbies">
+        <h2>Hobbies</h2>
+        <ul class="list-disc list-inside text-lg text-gray-700">
+            <li class="list-item">Playing Cricket</li>
+            <li class="list-item">Photography</li>
+            <li class="list-item">Playing Chess</li>
+            <li class="list-item">Traveling</li>
+            <li class="list-item">Coding</li>
+        </ul>
+    </div>
+
+    <!-- Certifications Section -->
+    <div class="section" id="certifications">
+        <h2>Certifications</h2>
+        <div class="certification-card">
+            <h3 class="text-xl font-semibold">Tally Prime</h3>
+            <p>Working with accounting and inventory management using Tally Prime.</p>
+        </div>
+        <div class="certification-card">
+            <h3 class="text-xl font-semibold">AI in MS-Office</h3>
+            <p>Using AI for solving (formula generating) problems in Excel.</p>
+        </div>
+        <div class="certification-card">
+            <h3 class="text-xl font-semibold">Python</h3>
+            <p>I learned basics of Python from Saddam sir, who focused on providing hands-on practical experience. Each concept was reinforced with projects and exercises, making the learning process engaging.</p>
+        </div>
+        <div class="certification-card">
+            <h3 class="text-xl font-semibold">Power-BI</h3>
+            <p>Creating interactive dashboards and reports using Power BI.</p>
+        </div>
+        <!-- <div class="certification-card">
+            <h3 class="text-xl font-semibold">Certification 5</h3>
+            <p>Completed [Course Name] from [Platform/Institution] in [Year]. Mastered [specific skills].</p>
+        </div> -->
+    </div>
+
+    <!-- Projects Section -->
+    <div class="section" id="projects">
+        <h2>Projects</h2>
+        <div class="project-card">
+            <h3 class="text-xl font-semibold">CAFE MANAGEMENT SYSTEM</h3>
+            <p>The Cafe Management System" allows customers to place orders from a simple menu. Users can input their desired items, and the system calculates the total amount, ensuring a smooth and enjoyable ordering experience. In this mini project, I used a "while loop" and "nested if conditions" to facilitate the ordering process.</p>
+            <a href="CAFE-MANAGEMENT-SYSTEM.py" class="text-blue-600 underline">Source Code</a>
+        </div>
+        <div class="project-card">
+            <h3 class="text-xl font-semibold">BASIC BANKING SYSTEM</h3>
+            <p>This is a "Basic banking system" in Python where users can deposit, withdraw, and check their balance. It allows personalized account management with simple transaction options.</p>
+            <a href="BANK.py" class="text-blue-600 underline">Source Code</a>
+        </div>
+        <!-- <div class="project-card">
+            <h3 class="text-xl font-semibold">Project 3</h3>
+            <p>A [type of project, e.g., data analysis tool] created using [technologies]. It provides [functionality].</p>
+            <a href="https://github.com/yourusername/project3" class="text-blue-600 underline">Source Code</a>
+        </div> -->
+    </div>
+
+    <!-- Footer / Contact Section -->
+    <div class="footer" id="contact">
+        <h2>Let's Connect</h2>
+        <p class="text-lg mb-4">Feel free to reach out via email: <a href="mailto:your.email@example.com" class="underline">chitragarvinayhc@gmail.com</a></p>
+        <p class="text-lg mb-4">Connect with me on social media—just click the logos below! </p>
+        <a href="vinay resume.pdf" class="download-btn mb-4 inline-block">Download CV</a>
+        <div class="flex justify-center space-x-4">
+            <a href="https://www.instagram.com/vinay_h_c_?igsh=ejYyN2dmZTNwNzlp" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174855.png" alt="Instagram" class="social-logo">
+            </a>
+            <a href="https://www.linkedin.com/in/vinay-hc-335582328" target="_blank">
+                <img src="https://cdn-icons-png.flaticon.com/512/174/174857.png" alt="LinkedIn" class="social-logo">
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // Register GSAP Plugins
+        gsap.registerPlugin(ScrollTrigger, TextPlugin);
+
+        // GSAP Animations for Banner
+        gsap.from(".navbar", { duration: 1, y: -100, opacity: 0, ease: "power2.out" });
+        gsap.from(".banner h1", { duration: 1, y: -50, opacity: 0, scale: 0.8, ease: "bounce.out" });
+        gsap.from(".banner img", { duration: 1, scale: 0, opacity: 0, delay: 1, ease: "elastic.out(1, 0.5)" });
+
+        // Typing Animation for Job Role
+        gsap.to("#job-role-part1", {
+            duration: 1.5,
+            text: "| Commerce Graduate | ",
+            ease: "none",
+            delay: 0.5
+        });
+        gsap.to("#job-role-part2", {
+            duration: 1.5,
+            text: "Passionate About Accounting and Taxation |",
+            ease: "none",
+            delay: 2
+        });
+        gsap.from(".cursor", {
+            duration: 0,
+            opacity: 0,
+            delay: 3.5
+        });
+
+        // Scroll-triggered animations for sections
+        gsap.utils.toArray(".section").forEach((section, index) => {
+            gsap.from(section, {
+                scrollTrigger: {
+                    trigger: section,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                x: index % 2 === 0 ? -100 : 100,
+                scale: 0.9,
+                duration: 1,
+                ease: "power3.out"
+            });
+        });
+
+        // Animate section headings
+        gsap.utils.toArray(".section h2").forEach(h2 => {
+            gsap.from(h2, {
+                scrollTrigger: {
+                    trigger: h2,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                scale: 0.5,
+                duration: 1,
+                ease: "back.out(1.7)"
+            });
+        });
+
+        // Animate list items
+        gsap.utils.toArray(".list-item").forEach((item, index) => {
+            gsap.from(item, {
+                scrollTrigger: {
+                    trigger: item,
+                    start: "top 90%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                x: -50,
+                delay: index * 0.2,
+                duration: 0.8,
+                ease: "power2.out"
+            });
+        });
+
+        // Animate cards
+        gsap.utils.toArray(".project-card, .certification-card").forEach((card, index) => {
+            gsap.from(card, {
+                scrollTrigger: {
+                    trigger: card,
+                    start: "top 80%",
+                    toggleActions: "play none none none"
+                },
+                opacity: 0,
+                y: 50,
+                rotation: index % 2 === 0 ? -10 : 10,
+                duration: 1,
+                ease: "back.out(1.7)"
+            });
+        });
+
+        // Footer animations
+        gsap.from(".footer h2", {
+            scrollTrigger: {
+                trigger: ".footer",
+                start: "top 80%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            scale: 0.5,
+            duration: 1,
+            ease: "back.out(1.7)"
+        });
+        gsap.from(".footer p, .download-btn, .social-logo", {
+            scrollTrigger: {
+                trigger: ".footer",
+                start: "top 80%",
+                toggleActions: "play none none none"
+            },
+            opacity: 0,
+            y: 30,
+            stagger: 0.2,
+            duration: 0.8,
+            ease: "power2.out"
+        });
+
+        // Toggle Education Details
+        function toggleDetails(id) {
+            const element = document.getElementById(id);
+            const allDetails = document.querySelectorAll('.education-details');
+            allDetails.forEach(detail => {
+                if (detail !== element) {
+                    detail.classList.remove('show');
+                    detail.style.display = 'none';
+                }
+            });
+            if (element.style.display === 'block') {
+                element.classList.remove('show');
+                element.style.display = 'none';
+            } else {
+                element.style.display = 'block';
+                setTimeout(() => element.classList.add('show'), 10);
+            }
+        }
+
+        // Toggle Navbar for Mobile
+        function toggleNav() {
+            const navLinks = document.querySelector('.nav-links');
+            navLinks.classList.toggle('active');
+        }
+    </script>
+</body>
+</html>
